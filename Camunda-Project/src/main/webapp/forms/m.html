@@ -1,0 +1,1823 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width,
+                 initial-scale=1.0"
+  />
+  <style>
+    .popup {
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 20%;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+    }
+    .popup-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888888;
+      width: 30%;
+      font-weight: bolder;
+    }
+    .popup-content button {
+      display: block;
+      margin: 0 auto;
+    }
+    .show {
+      display: block;
+    }
+    h1 {
+      color: green;
+    }
+    table {
+      width: 100%;
+    }
+    .table2 {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+</head>
+
+<body
+  dir="rtl"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  "
+  onload="loadName()"
+>
+  <h1 dir="rtl" style="color: rgb(15, 94, 199)">ثبت و اصلاح برنامه هفتگی</h1>
+  <hr />
+  <div dir="rtl">
+    <h6>کدسند:</h6>
+    <p>77</p>
+    <h6>تاریخ:</h6>
+    <p>1402.4.1</p>
+    <hr />
+
+    <div class="form-group">
+      <input
+        cam-variable-name="client"
+        style="background-color: rgb(255, 255, 255); display: none"
+        cam-variable-type="String"
+        type="text"
+        name="client"
+        required
+        class="form-control"
+        ng-model="userName"
+        id="user"
+        readonly="true"
+      />
+    </div>
+
+    <table>
+      <tr>
+        <th><h4>نام و نام خانوادگی:</h4></th>
+        <th><h4 id="firstName">دکتر مسعود صبایی</h4></th>
+      </tr>
+      <tr>
+        <th><h4>واحد سازمانی:</h4></th>
+        <th><h4 id="OrganizationalUnit">مهندسی کامپیوتر</h4></th>
+      </tr>
+      <tr>
+        <th><h4>رشته و گروه آموزشی:</h4></th>
+        <th><h4 id="fieldAndEducationalGroup"></h4></th>
+      </tr>
+      <tr>
+        <th><h4>شیوه خدمت:</h4></th>
+        <th><h4 id="serviceMethod"></h4></th>
+      </tr>
+      <tr>
+        <th><h4>مرتبه علمی:</h4></th>
+        <th><h4 id="AcademicRank"></h4></th>
+      </tr>
+      <tr>
+        <th><h4>پایه:</h4></th>
+        <th><h4 id="Base"></h4></th>
+      </tr>
+      <tr>
+        <th><h4>پست ثانویه:</h4></th>
+        <th><h4 id="secondaryPost"></h4></th>
+      </tr>
+      <tr>
+        <th><h4>بار موظف تدریس:</h4></th>
+        <th><h4 id="teachingLoad"></h4></th>
+      </tr>
+      <tr>
+        <th>
+          <h4>تعداد دانشجویان کارشناسی:</h4>
+        </th>
+        <th><h4 id="numberOfUndergraduateStudents"></h4></th>
+      </tr>
+      <tr>
+        <th><h4>تعداد دانشجویان دکتری:</h4></th>
+        <th><h4 id="numberOfPhdStudents">30</h4></th>
+      </tr>
+    </table>
+
+    <hr />
+    <div style="display: flex; flex-direction: row">
+      <h4>نیمسال:</h4>
+      <select id="years">
+        <option value="14011">اول 1401</option>
+        <option value="14012">دوم 1401</option>
+        <option value="14021">اول 1402</option>
+      </select>
+      <br /><br />
+      <input
+        style="width: 150px"
+        id="status"
+        type="button"
+        value="نمایش وضعیت"
+        cam-variable-name="v"
+        cam-variable-type="String"
+        class="form-control"
+      />
+    </div>
+
+    <h4>وضعیت برنامه هفتگی:</h4>
+    <h3 id="ss"></h3>
+    <h4>مهلت ثبت برنامه هفتگی:</h4>
+    <p></p>
+    <hr />
+    <div style="display: flex; flex-direction: row">
+      <h4>انتخاب برنامه هفتگی از نیمسال های گذشته :</h4>
+      <select id="ye">
+        <option value="14011">اول1401</option>
+        <option value="14012">دوم1401</option>
+        <option value="14021">اول1402</option>
+      </select>
+      <br /><br /><br />
+      <input
+        style="width: 150px"
+        id="plan"
+        type="button"
+        value="مشاهده برنامه هفتگی"
+        cam-variable-name="m"
+        cam-variable-type="String"
+        class="form-control"
+      />
+    </div>
+    <br />
+  </div>
+
+  <div id="myPopup" dir="rtl" class="popup">
+    <div class="popup-content">
+      <h1 style="color: rgb(15, 94, 199)">تعیین فعالیت</h1>
+      <h6>نوع فعالیت</h6>
+
+      <select id="type">
+        <option value="آموزشی">آموزشی</option>
+        <option value="پژوهشی">پژوهشی</option>
+        <option value="اجرائی">اجرائی</option>
+      </select>
+      <br />
+
+      <h6>عنوان فعالیت</h6>
+      <select id="activity">
+        <option value="_">non</option>
+        <option value="تدریس کلاس">تدریس کلاس</option>
+        <option value="آمادگی برای تدریس">آمادگی برای تدریس</option>
+        <option value="رسیدگی به پروژه ">رسیدگی به پروژه</option>
+        <option value="مطالعه و تحقیق ">مطالعه و تحقیق</option>
+        <option value="ناهار و نماز ">ناهار و نماز</option>
+        <option value="پیگیری امورقرارداده ">پیگیری امورقرارداده</option>
+        <option value="جلسه گروه معماری ">جلسه گروه معماری</option>
+        <option value="ارزیابی کارایی سیستم ">ارزیابی کارایی سیستم</option>
+
+        <option value="مراجعه دانشجویان ">مراجعه دانشجویان</option>
+
+        <option value="رسیدگی به پروژه های ارتباط با صنعت ">
+          رسیدگی به پروژه های ارتباط با صنعت
+        </option>
+        <option value="رسیدگی به امور دانشجویان تحصیلات تکمیلی ">
+          رسیدگی به امور دانشجویان تحصیلات تکمیلی
+        </option>
+      </select>
+      <br />
+      <hr />
+      <div>
+        <h6>مکان حضور</h6>
+        <input type="radio" id="inside" name="choices" value="inside" />
+        <label for="inside"> داخل دانشگاه</label><br />
+        <input type="radio" id="outside" name="choices" value="outside" />
+        <label for="outside"> خارج دانشگاه</label><br />
+        <br />
+        <h6>عنوان مکان حضور</h6>
+        <select id="place">
+          <option value="_">non</option>
+          <option value="دفتر کار">دفتر کار</option>
+          <option value="دفتر کار/صنعت">دفتر کار/صنعت</option>
+          <option value="دانشکده مهندسی">دانشکده مهندسی</option>
+
+          <option value="دفتر دانشکده">دفتر دانشکده</option>
+          <option value="آزمایشگاه">آزمایشگاه</option>
+          <option value="اتاق شورای دانشگاه">اتاق شورای دانشگاه</option>
+          <option value="خارج دانشگاه">خارج دانشگاه</option>
+        </select>
+      </div>
+
+      <h6>تعداد تکرار در هفته</h6>
+      <select id="repeat">
+        <option value="weekly">هفتگی</option>
+        <option value="one weeks">یک هفته درمیان</option>
+        <option value="two weeks">دوهفته درمیان</option>
+        <option value="Monthly">ماهی یکبار</option>
+      </select>
+      <h6>ایام هفته:</h6>
+      <select id="week">
+        <option value="شنبه">شنبه</option>
+        <option value="یک شنبه">یک شنبه</option>
+        <option value="دوشنبه">دوشنبه</option>
+        <option value="سه شنبه">سه شنبه</option>
+        <option value="چهارشنبه">چهارشنبه</option>
+        <option value="پنج شنبه">پنج شنبه</option>
+        <option value="جمعه">جمعه</option>
+      </select>
+      <hr />
+      <div style="display: flex; flex-direction: row">
+        <h6>مدت زمان فعالیت:</h6>
+        <select id="timeminutes">
+          <option value="00">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+        <h4>:</h4>
+        <select id="timehour">
+          <option value="00">00</option>
+          <option value="01">01</option>
+          <option value="02">02</option>
+          <option value="03">03</option>
+          <option value="04">04</option>
+          <option value="05">05</option>
+          <option value="06">06</option>
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+      </div>
+      <br />
+      <div style="display: flex; flex-direction: row">
+        <h6>ساعت شروع فعالیت:</h6>
+        <select id="startTimeMin">
+          <option value="00">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+        <h4>:</h4>
+        <select id="startTimeHour">
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="16">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+      <br />
+      <div style="display: flex; flex-direction: row">
+        <h6>ساعت پایان فعالیت:</h6>
+        <select id="w">
+          <option value="00">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+        <h4>:</h4>
+        <select id="w">
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="16">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+      <br />
+
+      <button id="closePopup">ثبت</button>
+    </div>
+  </div>
+
+  <form role="form" name="form" style="background-color: rgb(109, 182, 242)">
+    <!-- <div class="form-group">
+    <label for="customerId-field">Customerrr ID</label>
+    <input required
+           cam-variable-name="customerId"
+
+           cam-variable-type="String"
+           class="form-control" />
+  </div> -->
+    <script cam-script type="text/form-script">
+      inject([ '$rootScope', '$scope', function($rootScope, $scope) {
+            camForm.on('variables-fetched', function() {
+          $scope.userName = $rootScope.authentication.name;
+          var username=document.getElementById("user").value;
+
+          var link="http://localhost:3000/main-information?user="+$scope.userName;
+          console.log(link);
+
+          fetch(link,{mode:'cors'})
+            .then(response => response.json())
+            .then(data => {
+
+              document.getElementById("firstName").innerHTML = data.name;
+              document.getElementById("fieldAndEducationalGroup").innerHTML = data.fieldAndEducationalGroup;
+              document.getElementById("serviceMethod").innerHTML = data.serviceMethod;
+              document.getElementById("AcademicRank").innerHTML = data.AcademicRank;
+              document.getElementById("Base").innerHTML = data.Base;
+              document.getElementById("secondaryPost").innerHTML = data.secondaryPost;
+              document.getElementById("teachingLoad").innerHTML = data.teachingLoad;
+              document.getElementById("numberOfUndergraduateStudents").innerHTML = data.numberOfUndergraduateStudents;
+              document.getElementById("numberOfMasterStudents").innerHTML = data.numberOfMasterStudents;
+              document.getElementById("numberOfPhdStudents").innerHTML = data.numberOfPhdStudents;
+              document.getElementById("OrganizationalUnit").innerHTML = data.OrganizationalUnit;
+            })
+            .catch(error => {
+
+              console.error('There was a problem with the fetch operation:', error);
+            });
+            document.getElementById("check").onclick = function() {
+              var link2="http://localhost:3000/getDuration?user="+$scope.userName+"&year="+document.getElementById("ye").value;
+
+              fetch(link2,{mode:'cors'})
+              .then(response => response.json())
+              .then(data => {
+                document.getElementById("amoozeshi1").innerHTML = data.education
+                document.getElementById("pajooheshi1").innerHTML = data.research
+                document.getElementById("ejraii1").innerHTML = data.executive
+                document.getElementById("hozoor1").innerHTML = data.inside
+                document.getElementById("hozoork1").innerHTML = data.outside
+                document.getElementById("jam1").innerHTML = data.education + data.research + data.executive
+
+
+
+
+
+
+
+
+
+
+
+
+              })
+              .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+              });
+
+
+
+          }
+
+            document.getElementById("plan").onclick = function() {
+                var link2="http://localhost:3000/weekly-program?user="+$scope.userName+"&year="+document.getElementById("ye").value;
+
+                fetch(link2,{mode:'cors'})
+                .then(response => response.json())
+                .then(data => {
+                  var firstName = data.name;
+                  console.log(data.Saturday[0].subject);
+
+
+                  for (let i = 0; i < 8; i++) {
+                    document.getElementById("myButton"+i.toString()).value=" ";
+                    document.getElementById("myCaption"+i.toString()).value=" ";
+                    document.getElementById("myButton"+i.toString()).value=data.Saturday[i].subject;
+                    document.getElementById("myCaption"+i.toString()).value=data.Saturday[i].workplace;
+
+
+                      var j=i%8;
+                      console.log(j);
+                      document.getElementById("myButton"+(i+8).toString()).value=" ";
+                      document.getElementById("myCaption"+(i+8).toString()).value=" ";
+                      document.getElementById("myButton"+(i+8).toString()).value=data.Sunday[i].subject;
+                      document.getElementById("myCaption"+(i+8).toString()).value=data.Sunday[i].workplace;
+
+                      document.getElementById("myButton"+(i+16).toString()).value=" ";
+                      document.getElementById("myCaption"+(i+16).toString()).value=" ";
+                      document.getElementById("myButton"+(i+16).toString()).value=data.Monday[i%8].subject;
+                      document.getElementById("myCaption"+(i+16).toString()).value=data.Monday[i%8].workplace;
+
+                      document.getElementById("myButton"+(i+24).toString()).value=" ";
+                      document.getElementById("myCaption"+(i+24).toString()).value=" ";
+                      document.getElementById("myButton"+(i+24).toString()).value=data.Tuesday[i%8].subject;
+                      document.getElementById("myCaption"+(i+24).toString()).value=data.Tuesday[i%8].workplace;
+
+                      document.getElementById("myButton"+(i+32).toString()).value=" ";
+                      document.getElementById("myCaption"+(i+32).toString()).value=" ";
+                      document.getElementById("myButton"+(i+32).toString()).value=data.Wednesday[i%8].subject;
+                      document.getElementById("myCaption"+(i+32).toString()).value=data.Wednesday[i%8].workplace;
+
+                      document.getElementById("myButton"+(i+40).toString()).value=" ";
+                      document.getElementById("myCaption"+(i+40).toString()).value=" ";
+                      document.getElementById("myButton"+(i+40).toString()).value=data.Thursday[i%8].subject;
+                      document.getElementById("myCaption"+(i+40).toString()).value=data.Thursday[i%8].workplace;
+
+
+
+
+                  }
+
+
+                })
+                .catch(error => {
+                  console.error('There was a problem with the fetch operation:', error);
+                });
+
+
+
+            }
+            document.getElementById("status").onclick = function() {
+
+              fetch(link2,{mode:'cors'})
+                .then(response => response.json())
+                .then(data => {
+
+                  console.log(data.Saturday[0].subject);
+
+                  document.getElementById("myCaption"+(i+40).toString()).value=data.WeeklyProgramStatus;
+
+                })
+                .catch(error => {
+                  document.getElementById("firstName").innerHTML = "error";
+                  console.error('There was a problem with the fetch operation:', error);
+                });
+
+            }
+
+
+
+
+
+        });
+
+      }]);
+    </script>
+
+    <script cam-script type="text/form-script">
+
+        inject([ '$rootScope', '$scope', function($rootScope, $scope) {
+          camForm.on('variables-fetched', function() {
+        $scope.userName = $rootScope.authentication.name;
+        var popup1 = document.getElementById("myPopup");
+        var popup1Input = document.getElementById("activity");
+        var popup1Input1 = document.getElementById("place");
+        var popup1Input2 = document.getElementById("activity");
+        var popup1Close = document.getElementById("closePopup");
+        var popup1Close1 = document.getElementById("closePopup");
+        var popup1Close2 = document.getElementById("closePopup");
+
+        for (let i = 0; i < 48; i++) {
+      document.getElementById("myButton"+i.toString()).onclick = function() {
+      popup1Input.value=="";
+      popup1.style.display = "block";
+      popup1Close.onclick = function(){
+
+
+
+
+
+
+
+          popup1.style.display = "none";
+          if (popup1Input.value=="_"){document.getElementById("myButton"+i.toString()).value="";}
+          else{document.getElementById("myButton"+i.toString()).value += "/"+popup1Input.value;}
+          if (popup1Input1.value=="_"){document.getElementById("myCaption"+i.toString()).value="";}
+          else{document.getElementById("myCaption"+i.toString()).value += "/"+popup1Input1.value;}
+
+          const payload = {
+            teacher: $rootScope.authentication.name,
+            buttonid:i,
+            type: document.getElementById("type").value,
+            title: document.getElementById("activity").value,
+            place:document.querySelector('input[name="choices"]:checked').value,
+            placetitle: document.getElementById("place").value,
+            repeat: document.getElementById("repeat").value,
+            day: document.getElementById("week").value,
+            timeminutes: document.getElementById("timeminutes").value,
+            timehour: document.getElementById("timehour").value,
+            startTimeMin:document.getElementById("startTimeMin").value,
+            startTimeHour:document.getElementById("startTimeHour").value,
+
+
+          };
+          console.log(payload);
+          var jsonPayload = JSON.stringify(payload);
+          fetch("http://localhost:3000/update-section", {
+
+            method: 'POST',
+            mode:'cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: jsonPayload
+          })
+            .then(function(response) {
+
+            })
+            .catch(function(error) {
+
+            });
+
+        }
+
+          window.onclick = function(event) {
+          if (event.target == myPopup) {
+            popup1.style.display = "none";
+            // document.getElementById("popup1-textfield").value = popup1Input.value;
+          }
+
+        }
+
+      }
+
+      }
+
+
+
+      });
+      }]);
+
+
+
+
+        <!-- // popup1InputButton.onclick = function() {
+          // popup1Input.value = document.getElementById("popup1-textfield").value;
+        // }
+         -->
+
+
+
+
+
+
+
+        function openPopup(popup) {
+          popup.style.display = "block";
+        }
+    </script>
+
+    <script>
+      document.getElementById("check").onclick = function () {
+        document.getElementById().value = "";
+      };
+    </script>
+
+    <table id="maintable">
+      <tr>
+        <th><label for="a1-field">18-19:45</label></th>
+        <th><label for="b1-field">16:30-18</label></th>
+        <th><label for="c1-field">15-16:30</label></th>
+        <th><label for="d1-field">13:30-15</label></th>
+        <th><label for="e1-field">12:30-13:30</label></th>
+        <th><label for="f1-field">10:45-12</label></th>
+        <th><label for="g1-field">9:15-10:45</label></th>
+        <th><label for="h1-field">7:45-9:15</label></th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            cam-variable-name="a1"
+            id="myButton0"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption0"
+            id="myCaption0"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            cam-variable-name="b1"
+            id="myButton1"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption1"
+            id="myCaption1"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            cam-variable-name="c1"
+            id="myButton2"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption2"
+            id="myCaption2"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton3"
+            type="button"
+            cam-variable-name="d1"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption3"
+            id="myCaption3"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton4"
+            type="button"
+            cam-variable-name="e1"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption4"
+            id="myCaption4"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton5"
+            type="button"
+            cam-variable-name="f1"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption5"
+            id="myCaption5"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton6"
+            type="button"
+            value=""
+            cam-variable-name="g1"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption6"
+            id="myCaption6"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton7"
+            type="button"
+            value=""
+            cam-variable-name="h1"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption7"
+            id="myCaption7"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <label>شنبه</label>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            id="myButton8"
+            type="button"
+            value=""
+            cam-variable-name="a2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption8"
+            id="myCaption8"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton9"
+            type="button"
+            value=""
+            cam-variable-name="b2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption9"
+            id="myCaption9"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton10"
+            type="button"
+            value=""
+            cam-variable-name="c2"
+            cam-variable-type="Double"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption10"
+            id="myCaption10"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton11"
+            type="button"
+            value=""
+            cam-variable-name="d2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption11"
+            id="myCaption11"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton12"
+            type="button"
+            value=""
+            cam-variable-name="e2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption12"
+            id="myCaption12"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton13"
+            type="button"
+            value=""
+            cam-variable-name="f2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption13"
+            id="myCaption13"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton14"
+            type="button"
+            value=""
+            cam-variable-name="g2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption14"
+            id="myCaption14"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton15"
+            type="button"
+            value=""
+            cam-variable-name="h2"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption15"
+            id="myCaption15"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <label>یک شنبه</label>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            id="myButton16"
+            type="button"
+            value=""
+            cam-variable-name="a3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption16"
+            id="myCaption16"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton17"
+            type="button"
+            value=""
+            cam-variable-name="b3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption17"
+            id="myCaption17"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton18"
+            type="button"
+            value=""
+            cam-variable-name="c3"
+            cam-variable-type="Double"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption18"
+            id="myCaption18"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton19"
+            type="button"
+            value=""
+            cam-variable-name="d3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption19"
+            id="myCaption19"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton20"
+            type="button"
+            value=""
+            cam-variable-name="e3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption20"
+            id="myCaption20"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton21"
+            type="button"
+            value=""
+            cam-variable-name="f3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption21"
+            id="myCaption21"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton22"
+            type="button"
+            value=""
+            cam-variable-name="g3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption22"
+            id="myCaption22"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton23"
+            type="button"
+            value=""
+            cam-variable-name="h3"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption23"
+            id="myCaption23"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <label>دوشنبه</label>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            id="myButton24"
+            type="button"
+            value=""
+            cam-variable-name="a4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption24"
+            id="myCaption24"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton25"
+            type="button"
+            value=""
+            cam-variable-name="b4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption25"
+            id="myCaption25"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton26"
+            type="button"
+            value=""
+            cam-variable-name="c4"
+            cam-variable-type="Double"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption26"
+            id="myCaption26"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton27"
+            type="button"
+            value=""
+            cam-variable-name="d4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption27"
+            id="myCaption27"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton28"
+            type="button"
+            value=""
+            cam-variable-name="e4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption28"
+            id="myCaption28"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton29"
+            type="button"
+            value=""
+            cam-variable-name="f4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption29"
+            id="myCaption29"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton30"
+            type="button"
+            value=""
+            cam-variable-name="g4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption30"
+            id="myCaption30"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton31"
+            type="button"
+            value=""
+            cam-variable-name="h4"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption31"
+            id="myCaption31"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <label>سه شنبه</label>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            id="myButton32"
+            type="button"
+            value=""
+            cam-variable-name="a5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption32"
+            id="myCaption32"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton33"
+            type="button"
+            value=""
+            cam-variable-name="b5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption33"
+            id="myCaption33"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton34"
+            type="button"
+            value=""
+            cam-variable-name="c5"
+            cam-variable-type="Double"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption34"
+            id="myCaption34"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton35"
+            type="button"
+            value=""
+            cam-variable-name="d5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption35"
+            id="myCaption35"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton36"
+            type="button"
+            value=""
+            cam-variable-name="e5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption36"
+            id="myCaption36"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton37"
+            type="button"
+            value=""
+            cam-variable-name="f5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption37"
+            id="myCaption37"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton38"
+            type="button"
+            value=""
+            cam-variable-name="g5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption38"
+            id="myCaption38"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton39"
+            type="button"
+            value=""
+            cam-variable-name="h5"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption39"
+            id="myCaption39"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <label>چهار شنبه</label>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input
+            id="myButton40"
+            type="button"
+            value=""
+            cam-variable-name="a6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption40"
+            id="myCaption40"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+
+        <th>
+          <input
+            id="myButton41"
+            type="button"
+            value=""
+            cam-variable-name="b6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+
+          <input
+            cam-variable-name="myCaption41"
+            id="myCaption41"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton42"
+            type="button"
+            value=""
+            cam-variable-name="c6"
+            cam-variable-type="Double"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption42"
+            id="myCaption42"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton43"
+            type="button"
+            value=""
+            cam-variable-name="d6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption43"
+            id="myCaption43"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton44"
+            type="button"
+            value=""
+            cam-variable-name="e6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption44"
+            id="myCaption44"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton45"
+            type="button"
+            value=""
+            cam-variable-name="f6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption45"
+            id="myCaption45"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton46"
+            type="button"
+            value=""
+            cam-variable-name="g6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption46"
+            id="myCaption46"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <input
+            id="myButton47"
+            type="button"
+            value=""
+            cam-variable-name="h6"
+            cam-variable-type="String"
+            class="form-control"
+          />
+          <input
+            cam-variable-name="myCaption47"
+            id="myCaption47"
+            type="button"
+            value=""
+            cam-variable-type="String"
+            class="form-control"
+          />
+        </th>
+        <th>
+          <label>پنج شنبه</label>
+        </th>
+      </tr>
+    </table>
+
+    <script type="text/javascript">
+      function tableToCSV() {
+        // Variable to store the final csv data
+        var csv_data = [];
+
+        // Get each row data
+        var rows = document.getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+          // Get each column data
+          var cols = rows[i].querySelectorAll("input");
+
+          // Stores each csv row data
+          var csvrow = [];
+          for (var j = 0; j < cols.length; j++) {
+            // Get the text data of each cell
+            // of a row and push it to csvrow
+            csvrow.push(cols[j].value);
+          }
+
+          // Combine each column value with comma
+          csv_data.push(csvrow.join(","));
+        }
+
+        // Combine each row data with new line character
+        csv_data = csv_data.join("\n");
+
+        // Call this function to download csv file
+        downloadCSVFile(csv_data);
+      }
+
+      function downloadCSVFile(csv_data) {
+        // Create CSV file object and feed
+        // our csv_data into it
+        CSVFile = new Blob([csv_data], {
+          type: "text/csv",
+        });
+
+        // Create to temporary link to initiate
+        // download process
+        var temp_link = document.createElement("a");
+
+        // Download csv file
+        temp_link.download = "GfG.csv";
+        var url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+
+        // This link should not be displayed
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+
+        // Automatically click the link to
+        // trigger download
+        temp_link.click();
+        document.body.removeChild(temp_link);
+      }
+    </script>
+    <br />
+  </form>
+  <br />
+  <hr />
+  <div dir="rtl">
+    <br />
+    <input
+      style="width: 20%"
+      cam-variable-name="check"
+      id="check"
+      type="button"
+      value=" بررسی برنامه هفتگی"
+      cam-variable-type="String"
+      class="form-control"
+    />
+    <br />
+    <table class="table2" dir="ltr">
+      <tr>
+        <th>میزان ساعت اعلام شده در برنامه هفتگی</th>
+        <th>میزان ساعت فعالیت براساس آئین نامه</th>
+        <th>فعالیت</th>
+        <th>ردیف</th>
+      </tr>
+      <tr>
+        <td
+          cam-variable-name="amoozeshi1"
+          cam-variable-type="String"
+          id="amoozeshi1"
+        >
+          4
+        </td>
+        <td cam-variable-name="amoozeshi2" cam-variable-type="String">10</td>
+        <td>آموزشی</td>
+        <th>1</th>
+      </tr>
+      <tr>
+        <td
+          cam-variable-name="pajooheshi1"
+          cam-variable-type="String"
+          id="pajooheshi1"
+        >
+          10
+        </td>
+        <td cam-variable-name="pajooheshi2" cam-variable-type="String">10</td>
+        <td>پژوهشی</td>
+        <th>2</th>
+      </tr>
+      <tr>
+        <td cam-variable-name="ejraii1" cam-variable-type="String" id="ejraii1">
+          10
+        </td>
+        <td cam-variable-name="ejraii2" cam-variable-type="String">10</td>
+        <td>اجرایی</td>
+        <th>3</th>
+      </tr>
+      <tr>
+        <td cam-variable-name="hozoor1" cam-variable-type="String" id="hozoor1">
+          34
+        </td>
+        <td cam-variable-name="hozoor2" cam-variable-type="String">40</td>
+        <td>ساعات حضور داخل دانشگاه</td>
+        <th>4</th>
+      </tr>
+      <tr>
+        <td
+          cam-variable-name="hozoork1"
+          cam-variable-type="String"
+          id="hozoork1"
+        >
+          0
+        </td>
+        <td cam-variable-name="hozoork2" cam-variable-type="String">0</td>
+        <td>ساعات حضور خارج از دانشگاه</td>
+        <th>5</th>
+      </tr>
+      <tr>
+        <td cam-variable-name="jam1" cam-variable-type="String" id="jam1">
+          34
+        </td>
+        <td cam-variable-name="jam2" cam-variable-type="String">40</td>
+        <td>جمع ساعات برنامه</td>
+        <th>6</th>
+      </tr>
+    </table>
+  </div>
+  <hr />
+  <div dir="rtl">
+    <h3>توضیحات در صورت مغایرت برنامه هفتگی با آئین نامه</h3>
+    <textarea
+      name="textarea"
+      rows="5"
+      cols="60"
+      placeholder="Comment text."
+    ></textarea>
+    <br />
+
+    <label for="avatar">بارگذاری مدارک در صورت نیاز</label>
+
+    <input
+      type="file"
+      id="avatar"
+      name="avatar"
+      accept="image/png, image/jpeg,.pdf"
+    />
+    <h6>(فرمت PDF/.jpeg/.png با تا حجم حداکثر 300 کیلوبایت)</h6>
+    <br /><br />
+    <button type="button" onclick="tableToCSV()">download CSV</button>
+    <br /><br /><br />
+    <button
+      class="btn btn-primary ng-binding"
+      type="submit"
+      ng-click="complete()"
+      ng-disabled="disableCompleteButton()"
+    >
+      ذخیره وانصراف
+    </button>
+    <br /><br />
+    <button
+      class="btn btn-primary ng-binding"
+      type="submit"
+      ng-click="complete()"
+      ng-disabled="disableCompleteButton()"
+    >
+      ثبت و ارسال
+    </button>
+    <br /><br /><br />
+  </div>
+
+  <!-- <script cam-script type="text/form-script">
+
+  
+  var popup1 = document.getElementById("myPopup");
+  
+  // var popup2 = document.getElementById("popup2");
+
+  // Get the input elements
+
+  var popup1Input = document.getElementById("activity");
+  
+  var popup1Input1 = document.getElementById("place");
+  var popup1Input2 = document.getElementById("activity");
+
+  // Get the input button elements
+
+  // var popup1InputButton = document.getElementById("myButton");
+  // var popup1InputButton = document.getElementById("myButton1");
+  // var popup1InputButton = document.getElementById("myButton2");
+
+  // Get the close button elements
+
+  var popup1Close = document.getElementById("closePopup");
+  var popup1Close1 = document.getElementById("closePopup");
+  var popup1Close2 = document.getElementById("closePopup");
+
+  //   document.getElementById("firstName").onclick = function() {
+  //     document.getElementById("firstName").value = "HIHIHIHIHIHI";
+  // fetch("http://localhost:3000/",{mode:'cors'})
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     var firstName = data.name.split(" ")[0];
+  //     document.getElementById("firstName").value = firstName;
+  //   })
+  //   .catch(error => {
+  //     document.getElementById("firstName").value = "error";
+  //     console.error('There was a problem with the fetch operation:', error);
+  //   });
+
+
+  // }
+
+  // When the user clicks on the close button, close the popup and copy the value
+  // popup1Close.onclick = function() {
+  //   popup1.style.display = "none";
+  //   document.getElementById("myButton1").value = popup1Input1.value;
+  // }
+  // When the user clicks on the input button, copy the value of the text field to the input field
+
+
+  // popup1InputButton.onclick = function() {
+    // popup1Input.value = document.getElementById("popup1-textfield").value;
+  // }
+  
+
+  // When the user clicks on a button to open a popup, copy the value of the text field to the input field
+  for (let i = 0; i < 48; i++) { 
+  document.getElementById("myButton"+i.toString()).onclick = function() {
+    popup1Input.value=="";
+    popup1.style.display = "block";
+    // popup1Input.value = document.getElementById("popup1-textfield").value;
+    
+      popup1Close.onclick = function(){
+        popup1.style.display = "none";
+        if (popup1Input.value=="_"){document.getElementById("myButton"+i.toString()).value="";}
+        else{document.getElementById("myButton"+i.toString()).value += "/"+popup1Input.value;}
+        if (popup1Input1.value=="_"){document.getElementById("myCaption"+i.toString()).value="";}
+        else{document.getElementById("myCaption"+i.toString()).value += "/"+popup1Input1.value;}
+        
+      }
+      
+    
+    
+
+  }
+      
+  }
+  // document.getElementById("myButton1").onclick = function() {
+  //   popup1.style.display = "block";
+    // popup1Input.value = document.getElementById("popup1-textfield").value;
+  // }
+  // document.getElementById("myButton2").onclick = function() {
+  //   popup1.style.display = "block";
+  //   // popup1Input.value = document.getElementById("popup1-textfield").value;
+  //     popup1Close.onclick = function() {
+  //     popup1.style.display = "none";
+  //     document.getElementById("myButton2").value = popup1Input2.value;
+  //   }
+  // }
+  // When the user clicks anywhere outside of the popup, close it and copy the value
+
+  window.onclick = function(event) {
+    if (event.target == myPopup) {
+      popup1.style.display = "none";
+      // document.getElementById("popup1-textfield").value = popup1Input.value;
+    }
+    
+  }
+
+  // Function to open a popup
+
+  function openPopup(popup) {
+    popup.style.display = "block";
+  }
+  
+</script> -->
+</body>

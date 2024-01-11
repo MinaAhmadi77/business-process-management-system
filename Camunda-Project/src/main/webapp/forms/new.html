@@ -1,0 +1,36 @@
+<!-- // popup1Input.value = document.getElementById("popup1-textfield").value; -->
+
+
+for (let i = 0; i < 48; i++) { 
+    if(0<i<8){ 
+    document.getElementById("myButton"+i.toString()).value=data.Saturday[i].subject;
+    document.getElementById("myCaption"+i.toString()).value=data.Saturday[i].workplace;
+    }
+    else if(7<i<16){
+        var j=i%8;
+        console.log(j);
+        document.getElementById("myButton"+i.toString()).value=data.Sunday[j].subject;
+        document.getElementById("myCaption"+i.toString()).value=data.Sunday[j].workplace;
+      }
+      else if(15<i<24){
+        document.getElementById("myButton"+i.toString()).value=data.Monday[i%8].subject;
+        document.getElementById("myCaption"+i.toString()).value=data.Monday[i%8].workplace;
+      }
+      else if(23<i<32){ 
+        document.getElementById("myButton"+i.toString()).value=data.Tuesday[i%8].subject;
+        document.getElementById("myCaption"+i.toString()).value=data.Tuesday[i%8].workplace;
+      }
+      else if(31<i<40){
+        document.getElementById("myButton"+i.toString()).value=data.Wednesday[i%8].subject;
+        document.getElementById("myCaption"+i.toString()).value=data.Wednesday[i%8].workplace;
+      }
+      else if(39<i<48){
+        document.getElementById("myButton"+i.toString()).value=data.Thursday[i%8].subject;
+        document.getElementById("myCaption"+i.toString()).value=data.Thursday[i%8].workplace;
+      }
+  
+  
+
+
+    
+  }
